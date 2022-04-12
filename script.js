@@ -48,6 +48,17 @@ function clearGrid() {
   });
 }
 
+// Deletes default / previous iteration of grid so that the resize btn doesnt add new one onto it
+function removeOldGrid() {
+    // add square divs to square var
+    const square = document.getElementsByClassName('square');
+    // create array from square var (all divs with square class)
+    const squaresArray = Array.from(square);
+    squaresArray.forEach(function (sqr) {
+      sqr.remove();
+    });
+}
+
 // clicking  resize button prompts you for a new grid number of squares per side - set max no. to 100
 
 resizeBtn.addEventListener("click", e => {
@@ -66,11 +77,9 @@ resizeBtn.addEventListener("click", e => {
   // changed auto to 1fr because it produced uneven rows
   container.style.gridTemplateRows = `repeat(${newGridSizeInt}, 1fr)`;
 
+  removeOldGrid();
   clearGrid();
-  
+  removeOldGrid();
   createGrid(newGridSizeInt);
 
 })
-
-// To fix:
-// - onclick of resize btn i need to delete the old divs as well as removing dark grey class
