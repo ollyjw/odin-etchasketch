@@ -8,7 +8,7 @@
     margin: 0;
     color:#fff;
     display: inline-block;
-    padding-left: 225px;
+    padding-left: 100px;
   }
   
   .btn {
@@ -44,8 +44,8 @@
     grid-template-columns: repeat(16, auto);
     grid-template-rows: repeat(16, auto);
     margin:5px;    
-    width: 900px;
-    min-height: 900px;
+    width: 600px;
+    min-height: 600px;
     border-radius: 0.5rem;
   }
 
