@@ -1,9 +1,11 @@
 const container = document.querySelector('.container');
 const newDiv = document.createElement("div");
-// let gridSize = 16;
 
 const clearBtn = document.getElementById('clear');
 const resizeBtn = document.getElementById('resize');
+const randomColorBtn = document.getElementById('random-color');
+const eraseBtn = document.getElementById('erase');
+
 
 createGrid(16);
 
@@ -38,7 +40,7 @@ function createGrid(gridSize) {
 
 }
 
-// remove dark grey bg color for squares
+// clears entire grid / remove dark grey bg color for squares
 function clearGrid() {
   const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
@@ -47,6 +49,26 @@ function clearGrid() {
     sqr.classList.remove("bg-dark-grey");
   });
 }
+
+// erase mode - click btn & remove / re-add bg color classes on mouseclick/mouseover
+function toggleErase() {
+  const square = document.getElementsByClassName('square');
+  const squaresArray = Array.from(square);
+
+  squaresArray.forEach(function (sqr) {
+    // Hover effect - grid adds bg color class to each item (div with square class) as mouse passes over
+    sqr.addEventListener('mouseenter', e => {
+      sqr.classList.toggle("bg-dark-grey");
+    })
+  });
+}
+
+
+eraseBtn.addEventListener("click", e => {
+  toggleErase();
+})
+
+
 
 // Deletes default / previous iteration of grid so that the resize btn doesnt add new one onto it
 function removeOldGrid() {
@@ -83,3 +105,13 @@ resizeBtn.addEventListener("click", e => {
   createGrid(newGridSizeInt);
 
 })
+
+// NOTES TO SELF
+
+// To add 
+// - darker color ink - left click
+// - lighten color ink - right click
+// - random color - take rgb CSS property and generate random number for each value
+// - erase mode - click btn & remove classes on mouseclick/mouseover
+// - instead of mouseover make it so you have to click to draw
+// - mb make a btn to switch between mouseover & click
