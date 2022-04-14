@@ -1,10 +1,11 @@
 const container = document.querySelector('.container');
 const newDiv = document.createElement("div");
-
+// BTNS
 const clearBtn = document.getElementById('clear');
 const resizeBtn = document.getElementById('resize');
 const randomColorBtn = document.getElementById('random-color');
 const eraseBtn = document.getElementById('erase');
+const drawBtn = document.getElementById('draw-mode');
 
 
 createGrid(16);
@@ -27,9 +28,12 @@ function createGrid(gridSize) {
 
   // for each item in the array, add function with new declared parameter of 'sqr' (square)
   squaresArray.forEach(function (sqr) {
-    // Hover effect - grid adds bg color class to each item (div with square class) as mouse passes over
+    // Hover effect - grid adds inline style to each item (div with square class) as mouse passes over
     sqr.addEventListener('mouseover', e => {
-      sqr.classList.add("bg-dark-grey");
+      // sqr.classList.add("bg-dark-grey");
+
+      // - for sake of consistency & being able to clearly understand if the effect is occuring due to inline rgb or class adding: change to inline styles instead of css class
+      sqr.style.backgroundColor = 'rgb(63, 63, 63)';
     })
   });
 
@@ -37,42 +41,51 @@ function createGrid(gridSize) {
   clearBtn.addEventListener('click', e => {
     clearGrid();
   })
-
 }
 
-// clears entire grid / remove dark grey bg color for squares
+// CLEAR ENTIRE GRID / remove inline bg color for squares
 function clearGrid() {
   const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
 
   squaresArray.forEach(function (sqr) {
-    sqr.classList.remove("bg-dark-grey");
+    //sqr.classList.remove("bg-dark-grey");
     // sqr.classList.remove("bg-random");
     sqr.style.backgroundColor = '';
   });
 }
 
-// erase mode - click btn & remove / re-add bg color classes on mouseclick/mouseover
+// - if  toggle random or erase btns have btn-active class, clicking eachother should remove the class
+
+// ERASE MODE - click btn & remove / re-add bg color
 function toggleErase() {
   const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
 
   squaresArray.forEach(function (sqr) {
-    // Hover effect - grid adds bg color class to each item (div with square class) as mouse passes over
-    sqr.addEventListener('mouseenter', e => {      
-      sqr.classList.toggle("bg-dark-grey");
-      // sqr.classList.toggle("bg-random");
-      sqr.style.backgroundColor = '';
-    })
+
+    let active = eraseBtn.classList.contains('btn-active');
+    // if btn has 'active' class remove style, else use default color
+    if (active) {
+      randomColorBtn.classList.remove("btn-active");
+      sqr.addEventListener('mouseover', e => {
+        sqr.style.backgroundColor = '';
+      })
+    } else {
+      sqr.addEventListener('mouseover', e => {
+        sqr.style.backgroundColor = 'rgb(63, 63, 63)';
+      })
+    }
   });
 }
 
-// on click of btn toggle erase mode
+// ERASE BTN activates toggle erase function and adds active class to itself
 eraseBtn.addEventListener("click", e => {
+  eraseBtn.classList.toggle("btn-active");
   toggleErase();
 })
 
-// generate random number for each rgb value
+// generate random number for each rgb values
 function randomColor() {
   // create empty color array
   let color = [];
@@ -86,47 +99,53 @@ function randomColor() {
   return rgb;
 }
 
-
-// I want to change the rgb values of the bg-random class - without adding inline styles
-
-// function changeRandomClassRGB() {
-//   document.styleSheets[0].cssRules[7].style.backgroundColor = randomColor();
-// }
-
-// NOTE TO SELF - ^ changing css rules of a class will obvs affect all divs with that class - unless there's something i can do with event listeners or forEach
-
-// - on click of random color btn
+// - RANDOM COLOR BTN
 randomColorBtn.addEventListener("click", () => {
-  
+  randomColorBtn.classList.toggle("btn-active");
   const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
-  squaresArray.forEach(function(sqr) {
-      // sqr.addEventListener('mouseeover', e => {
-      //   sqr.classList.add("bg-random");
-      //   sqr.classList.remove("bg-dark-grey");
-      //   // changeRandomClassRGB();
-      // })
-      sqr.addEventListener("mouseover", e => {
-          sqr.style.backgroundColor = randomColor();
-          sqr.classList.toggle("bg-dark-grey");
+  squaresArray.forEach(function (sqr) {
+    // sqr.addEventListener('mouseeover', e => {
+    //   sqr.classList.add("bg-random");
+    //   sqr.classList.remove("bg-dark-grey");
+    //   // changeRandomClassRGB();
+    // })
+
+    let active = randomColorBtn.classList.contains('btn-active');
+    // if btn has 'active' class remove style, else use default color
+    if (active) {
+      eraseBtn.classList.remove("btn-active");
+      sqr.addEventListener('mouseover', e => {
+        sqr.style.backgroundColor = randomColor();
       })
+    } else {
+      sqr.addEventListener('mouseover', e => {
+        sqr.style.backgroundColor = 'rgb(63, 63, 63)';
+      })
+    }
   });
 });
 
 
-// Deletes default / previous iteration of grid so that the resize btn doesnt add new one onto it
+// DARKEN / LIGHTEN INK
+
+// higher numbers closer to white (255) lower numbers closer to black (0)
+
+
+
+
+// REMOVE OLD GRID - Deletes default / previous iteration of grid so that the resize btn doesnt add new one onto it
 function removeOldGrid() {
-    // add square divs to square var
-    const square = document.getElementsByClassName('square');
-    // create array from square var (all divs with square class)
-    const squaresArray = Array.from(square);
-    squaresArray.forEach(function (sqr) {
-      sqr.remove();
-    });
+  // add square divs to square var
+  const square = document.getElementsByClassName('square');
+  // create array from square var (all divs with square class)
+  const squaresArray = Array.from(square);
+  squaresArray.forEach(function (sqr) {
+    sqr.remove();
+  });
 }
 
-// clicking  resize button prompts you for a new grid number of squares per side - set max no. to 100
-
+// RESIZE BTN - clicking resize button prompts you for a new grid number of squares per side - set max no. to 100
 resizeBtn.addEventListener("click", e => {
   let newGridSize = prompt("How many squares per side? Please enter number between 1 & 100");
   // parseInt() function parses a string argument and returns an integer or NaN
@@ -146,16 +165,60 @@ resizeBtn.addEventListener("click", e => {
   clearGrid();
   removeOldGrid();
   createGrid(newGridSizeInt);
+})
 
+resizeBtn.addEventListener("mousedown", e => {
+  resizeBtn.classList.toggle("btn-active");
+})
+resizeBtn.addEventListener("mouseup", e => {
+  resizeBtn.classList.toggle("btn-active");
+})
+clearBtn.addEventListener("mousedown", e => {
+  clearBtn.classList.toggle("btn-active");
+})
+clearBtn.addEventListener("mouseup", e => {
+  clearBtn.classList.toggle("btn-active");
 })
 
 // NOTES TO SELF
 
-// To add 
+// To add
 // - darker color ink - left click
 // - lighten color ink - right click
-// - random color - take rgb CSS property and generate random number for each value
-// - erase mode - click btn & remove classes on mouseclick/mouseover
-// - instead of mouseover make it so you have to click to draw
-// - mb make a btn to switch between mouseover & click
-// - currently have to click erase twice if you've clicked random color
+// - make a btn to switch between mouseover & click n drag
+// - clicking cancel on resize prompt deletes grid...
+
+
+
+// SWITCH BETWEEN MOUSE CLICK AND MOUSE OVER
+
+// function drawMode() {
+//   const square = document.getElementsByClassName('square');
+//   const squaresArray = Array.from(square);
+
+//   squaresArray.forEach(function (sqr) {
+//     sqr.addEventListener('mousedown', e => {
+//       sqr.classList.add("bg-dark-grey");
+//     })
+
+//     // sqr.addEventListener('mouseleave',() => {
+//     //   sqr.classList.add("bg-dark-grey");
+//     // });
+
+//   })
+// }
+
+// drawBtn.addEventListener('click', e => {
+//  drawBtn.classList.toggle("btn-active");
+//  drawMode();
+// })
+
+//  ----------------------------------------------------
+
+// I want to change the rgb values of the bg-random class - without adding inline styles
+
+// function changeRandomClassRGB() {
+//   document.styleSheets[0].cssRules[7].style.backgroundColor = randomColor();
+// }
+
+// NOTE TO SELF - ^ changing css rules of a class will obvs affect all divs with that class - unless there's something i can do with event listeners or forEach
