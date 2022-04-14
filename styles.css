@@ -1,14 +1,15 @@
   .border {
-    background-color: red;
+    background-color: rgb(255, 0, 0);
     padding: 60px 60px 0 60px;
     display: inline-block;
+    box-shadow: 18px 12px rgb(255 100 117), 20px 15px 20px rgb(122 118 121);
+    border-radius: 50px;
   }
   h1 {
     text-align: center;
     margin: 0;
     color:#fff;
     display: inline-block;
-    padding-left: 100px;
   }
   
   .btn {
@@ -23,20 +24,26 @@
     border: 1px solid transparent;
     padding: 0.75rem 1.75rem;
     font-size: 1.25rem;
-    border-radius: 100%;
+    border-radius: 50%;
     height: 105px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    background-color: #fff;
-  }
-  /* #clear {
-    background-color: #00d61d;
-  } */
-  #resize {
-    background-color: #00daee;
-    float: right;
     width: 105px;
-    padding: 0;
+    margin-top: 30px;
+    background-color: #fff;
+    box-shadow: 15px 10px 2px rgb(0 0 0 / 29%);
+    border-top: solid 1px rgba(255, 255, 255, 0.3);
+    border-left: solid 1px rgba(255, 255, 255, 0.3);
+    border-bottom: solid 8px lightgrey;
+    border-right: solid 8px lightgrey;
+  }
+  .btn-active {
+    background-color: #e1e1e1;
+    border-color: #bbbbbb;
+  }
+
+  .subtitle {
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
   }
 
   .container {
@@ -47,6 +54,7 @@
     width: 600px;
     min-height: 600px;
     border-radius: 0.5rem;
+    outline: 5px solid rgba(255, 100, 117,0.9);
   }
 
   .square {
@@ -55,6 +63,12 @@
 
   .bg-dark-grey {
     background-color: #3f3f3f;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   /* .bg-random {
