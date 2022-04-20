@@ -67,6 +67,14 @@
     background-color: #959595;
   }
 
+  .text-center {
+    text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
   /* .bg-dark-grey {
     background-color: rgb(63, 63, 63);
   } */
