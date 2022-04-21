@@ -75,7 +75,7 @@ function drawMode() {
       sqr.removeEventListener('mouseover', mouseOver, false);
       clickNDrag();
     } else { // else mouseover mode
-        mouseOver();
+      mouseOver();
     }
   })
 }
@@ -194,6 +194,7 @@ resizeBtn.addEventListener("click", e => {
   clearGrid();
   removeOldGrid();
   createGrid(newGridSizeInt);
+  mouseOver();
 })
 
 resizeBtn.addEventListener("mousedown", e => {
