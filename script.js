@@ -103,6 +103,7 @@ function toggleErase() {
     // if btn has 'active' class remove style, else use default color
     if (active) {
       randomColorBtn.classList.remove("btn-active");
+      drawBtn.classList.remove("btn-active");
       sqr.addEventListener('mouseover', e => {
         sqr.style.backgroundColor = '';
       })
