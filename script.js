@@ -42,7 +42,7 @@ function mouseOver() {
 }
 
 // call here so it runs by default
-// mouseOver();
+mouseOver();
 
 // CLICK & DRAG to draw
 function clickNDrag() {
