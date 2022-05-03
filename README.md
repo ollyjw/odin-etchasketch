@@ -1,12 +1,9 @@
 # odin-etchasketch
+NOTES FROM ODIN PROJECT:
 
 Create a 16x16 grid of square divs using JavaScript & CSS Grid.
 
 Set up a “hover” effect so that the grid divs change color when your mouse passes over them, leaving a (pixelated) trail through your grid like a pen would.
-There are multiple ways to change the color of the divs, including:
-    adding a new class to the div.
-    changing the div’s background color using JavaScript.
-
 
 Add a button which will clear the current grid and another button that sends the user a popup asking for the number of squares per side for the new grid. Once entered, the new grid should be generated in the same total space as before (e.g. 960px wide) so that you’ve got a new sketch pad. Set the limit for the user input to a maximum of 100. 
 
