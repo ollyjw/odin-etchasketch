@@ -7,6 +7,10 @@ const randomColorBtn = document.getElementById('random-color');
 const eraseBtn = document.getElementById('erase');
 const drawBtn = document.getElementById('draw-mode');
 
+// add square divs to square var
+const square = document.getElementsByClassName('square');
+// create array from square var (all divs with square class)
+const squaresArray = Array.from(square);
 
 createGrid(16);
 
@@ -44,41 +48,41 @@ function mouseOver() {
 // call here so it runs by default
 mouseOver();
 
-// CLICK & DRAG to draw
-function clickNDrag() {
-  const square = document.getElementsByClassName('square');
-  const squaresArray = Array.from(square);
-  squaresArray.forEach(function(sqr) {
-    sqr.removeEventListener('mouseover', mouseOver);
+// // CLICK & DRAG to draw
+// function clickNDrag() {
+//   const square = document.getElementsByClassName('square');
+//   const squaresArray = Array.from(square);
+//   squaresArray.forEach(function(sqr) {
+//     sqr.removeEventListener('mouseover', mouseOver);
     
-    sqr.addEventListener('mousedown', e => {
-      sqr.style.backgroundColor = 'rgb(63, 63, 63)';
-    })
-  })
-}
+//     sqr.addEventListener('mousedown', e => {
+//       sqr.style.backgroundColor = 'rgb(63, 63, 63)';
+//     })
+//   })
+// }
 
-drawBtn.addEventListener('click', e => {
-  drawBtn.classList.toggle("btn-active");
-  drawMode();
-})
+// drawBtn.addEventListener('click', e => {
+//   drawBtn.classList.toggle("btn-active");
+//   drawMode();
+// })
 
-// SWITCH BETWEEN MOUSE CLICK & DRAG AND MOUSE OVER
-function drawMode() {
-  let active = drawBtn.classList.contains('btn-active');
+// // SWITCH BETWEEN MOUSE CLICK & DRAG AND MOUSE OVER
+// function drawMode() {
+//   let active = drawBtn.classList.contains('btn-active');
 
-  const square = document.getElementsByClassName('square');
-  const squaresArray = Array.from(square);
+//   const square = document.getElementsByClassName('square');
+//   const squaresArray = Array.from(square);
 
-  squaresArray.forEach(function(sqr) {
+//   squaresArray.forEach(function(sqr) {
 
-    if (active) { // if draw button toggled to active go to click & drag mode      
-      sqr.removeEventListener('mouseover', mouseOver, false);
-      clickNDrag();
-    } else { // else mouseover mode
-      mouseOver();
-    }
-  })
-}
+//     if (active) { // if draw button toggled to active go to click & drag mode      
+//       sqr.removeEventListener('mouseover', mouseOver, false);
+//       clickNDrag();
+//     } else { // else mouseover mode
+//       mouseOver();
+//     }
+//   })
+// }
 
 // CLEAR ENTIRE GRID / remove inline bg color for squares
 function clearGrid() {
@@ -94,7 +98,6 @@ function clearGrid() {
 
 // ERASE MODE - click btn & remove / re-add bg color
 function toggleErase() {
-  const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
 
   squaresArray.forEach(function (sqr) {
@@ -103,7 +106,7 @@ function toggleErase() {
     // if btn has 'active' class remove style, else use default color
     if (active) {
       randomColorBtn.classList.remove("btn-active");
-      drawBtn.classList.remove("btn-active");
+      // drawBtn.classList.remove("btn-active");
       sqr.addEventListener('mouseover', e => {
         sqr.style.backgroundColor = '';
       })
