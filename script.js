@@ -8,6 +8,11 @@ const eraseBtn = document.getElementById('erase');
 const drawBtn = document.getElementById('draw-mode');
 
 
+// add square divs to square var
+const square = document.getElementsByClassName('square');
+// create array from square var (all divs with square class)
+const squaresArray = Array.from(square);
+
 createGrid(16);
 
 // Create 16x16 grid of divs with square class
@@ -19,6 +24,7 @@ function createGrid(gridSize) {
     let cloneDiv = newDiv.cloneNode();
     container.appendChild(cloneDiv);
   }
+  drawMode();
 }
 
 // CLEAR - click clear button and remove bg color
@@ -26,37 +32,25 @@ clearBtn.addEventListener('click', e => {
   clearGrid();
 })
 
-// HOVER EFFECT - on mouseover add inline style to each item (div with square class)
-function mouseOver() {
-  // add square divs to square var
-  const square = document.getElementsByClassName('square');
-  // create array from square var (all divs with square class)
-  const squaresArray = Array.from(square);
+// Put event listener in a loop / background color in a named function
 
-  // for each item in the array, add function with new declared parameter of 'sqr' (square)
-  squaresArray.forEach(function(sqr) {
-    sqr.addEventListener('mouseover', e => {
-      sqr.style.backgroundColor = 'rgb(63, 63, 63)';
-    })
-  })
+// ADD DARK GREY INLINE STYLE TO SQUARES
+function defaultPen(sqr) {
+  sqr.style.backgroundColor = 'rgb(63, 63, 63)';
 }
 
-// call here so it runs by default
-mouseOver();
-
-// CLICK & DRAG to draw
+// // CLICK & DRAG to draw
 function clickNDrag() {
-  const square = document.getElementsByClassName('square');
-  const squaresArray = Array.from(square);
-  squaresArray.forEach(function(sqr) {
-    sqr.removeEventListener('mouseover', mouseOver);
-    
-    sqr.addEventListener('mousedown', e => {
-      sqr.style.backgroundColor = 'rgb(63, 63, 63)';
-    })
-  })
+  for (let i = 0; i < square.length; i++) {
+    // REMOVE MOUSEOVER EVENT
+    square[i].removeEventListener("mouseover", () => defaultPen(square[i]));
+    //REPLACE W/ CLICK & DRAG
+    square[i].addEventListener("click", () => defaultPen(square[i]));
+  }
+  console.log("clickNDrag"); 
 }
 
+// DRAW BTN - add active class to itself & activate draw mode
 drawBtn.addEventListener('click', e => {
   drawBtn.classList.toggle("btn-active");
   drawMode();
@@ -64,27 +58,26 @@ drawBtn.addEventListener('click', e => {
 
 // SWITCH BETWEEN MOUSE CLICK & DRAG AND MOUSE OVER
 function drawMode() {
-  let active = drawBtn.classList.contains('btn-active');
+  const active = drawBtn.classList.contains('btn-active');
 
-  const square = document.getElementsByClassName('square');
-  const squaresArray = Array.from(square);
-
-  squaresArray.forEach(function(sqr) {
-
-    if (active) { // if draw button toggled to active go to click & drag mode      
-      sqr.removeEventListener('mouseover', mouseOver, false);
-      clickNDrag();
-    } else { // else mouseover mode
-      mouseOver();
+  if (active) { // if draw mode btn contains active class go to click & drag mode  
+    clickNDrag();
+  } else { // otherwise default to mouseover mode
+    console.log("mouseover mode"); 
+    for (let i = 0; i < square.length; i++) {
+      // ADD MOUSEOVER EVENT
+      square[i].addEventListener("mouseover", () => defaultPen(square[i]));
+      // REMOVE MOUSEDOWN EVENT
+      square[i].removeEventListener("click", () => defaultPen(square[i]));
     }
-  })
+  }
 }
 
 // CLEAR ENTIRE GRID / remove inline bg color for squares
 function clearGrid() {
-  const square = document.getElementsByClassName('square');
+  // const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
-
+  // for each item in the array, add function with new declared parameter of 'sqr' (square)
   squaresArray.forEach(function (sqr) {
     sqr.style.backgroundColor = '';
   });
@@ -94,7 +87,6 @@ function clearGrid() {
 
 // ERASE MODE - click btn & remove / re-add bg color
 function toggleErase() {
-  const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
 
   squaresArray.forEach(function (sqr) {
@@ -103,7 +95,7 @@ function toggleErase() {
     // if btn has 'active' class remove style, else use default color
     if (active) {
       randomColorBtn.classList.remove("btn-active");
-      drawBtn.classList.remove("btn-active");
+      // drawBtn.classList.remove("btn-active");
       sqr.addEventListener('mouseover', e => {
         sqr.style.backgroundColor = '';
       })
@@ -157,7 +149,6 @@ randomColorBtn.addEventListener("click", () => {
   });
 });
 
-
 // DARKEN / LIGHTEN INK
 
 // higher numbers closer to white (255) lower numbers closer to black (0)
@@ -167,7 +158,6 @@ randomColorBtn.addEventListener("click", () => {
 
 // REMOVE OLD GRID - Deletes default / previous iteration of grid so that the resize btn doesnt add new one onto it
 function removeOldGrid() {
-  const square = document.getElementsByClassName('square');
   const squaresArray = Array.from(square);
   squaresArray.forEach(function (sqr) {
     sqr.remove();
@@ -194,7 +184,7 @@ resizeBtn.addEventListener("click", e => {
   clearGrid();
   removeOldGrid();
   createGrid(newGridSizeInt);
-  mouseOver();
+  drawMode();
 })
 
 resizeBtn.addEventListener("mousedown", e => {
@@ -213,8 +203,38 @@ clearBtn.addEventListener("mouseup", e => {
 // NOTES TO SELF
 
 // To add
-// - darker color ink 
+// - darker color ink
 // - lighten color ink
 // - make a btn to switch between mouseover & click n drag
 // - clicking cancel on resize prompt deletes grid...
 // - reduce lines by moving square variable declarations to global without breaking ?
+
+// - removeeventlistener anonymous function
+// - https://stackoverflow.com/questions/4950115/removeeventlistener-on-anonymous-functions-in-javascript
+
+// https://stackoverflow.com/questions/32027935/addeventlistener-is-not-a-function-why-does-this-error-occur
+
+// https://gomakethings.com/named-vs-anonymous-event-listener-functions/
+
+
+
+// OLD
+// --------------------------------------
+// HOVER EFFECT - on mouseover add inline style to each item (div with square class)
+// function mouseOver() {
+//   // add square divs to square var
+//   const square = document.getElementsByClassName('square');
+//   // create array from square var (all divs with square class)
+//   const squaresArray = Array.from(square);
+
+//   // for each item in the array, add function with new declared parameter of 'sqr' (square)
+//   squaresArray.forEach(function(sqr) {
+//     // PUT THIS ANON FUNCTION INTO NAMED FUNCTION
+//     sqr.addEventListener('mouseover', e => {
+//       sqr.style.backgroundColor = 'rgb(63, 63, 63)';
+//     })
+//   })
+// }
+
+// call here so it runs by default
+// mouseOver();
