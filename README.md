@@ -1,4 +1,10 @@
 # odin-etchasketch
+
+https://www.theodinproject.com/lessons/foundations-etch-a-sketch
+
+Etch a Sketch App
+
+
 NOTES FROM ODIN PROJECT:
 
 Create a 16x16 grid of square divs using JavaScript & CSS Grid.
